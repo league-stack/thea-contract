@@ -16,6 +16,8 @@ go get github.com/league-stack/thea-contract
 | `validate.go` | the checks a match must pass, and the refusal codes |
 | `testdata/` | sample matches both sides test against |
 
+a match may carry `veto`, the picks and bans that chose its maps, and `settings.no_shows.forfeit`, which turns a team that is short when `ready_seconds` runs out into a forfeit. without it the match is cancelled with `no_show`, and the state's `players` say who never connected. a pause carries its `reason`, and the state carries `map_scores` for the maps already played.
+
 ```
 go test ./...
 ```

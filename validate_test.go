@@ -72,3 +72,22 @@ func TestAShortLineupLoadsWhileLineupsAreOpen(t *testing.T) {
 		t.Fatalf("refused: %v", refusal)
 	}
 }
+
+func TestAVetoStepNeedsAKnownActionAMapAndATeam(t *testing.T) {
+	team, nobody := 1, 2
+	for name, step := range map[string]VetoStep{
+		"unknown action": {Action: "skip", Map: "de_mirage", Team: &team},
+		"no map":         {Action: VetoBan, Team: &team},
+		"no team":        {Action: VetoPick, Map: "de_mirage"},
+		"a third team":   {Action: VetoBan, Map: "de_mirage", Team: &nobody},
+	} {
+		match := Match{Veto: []VetoStep{step}}
+		if refusal := match.checkVeto(); refusal == nil || refusal.Code != RefusedBadVeto {
+			t.Errorf("%s: refusal = %v", name, refusal)
+		}
+	}
+	decided := Match{Veto: []VetoStep{{Action: VetoBan, Map: "de_nuke", Team: &team}, {Action: VetoDecider, Map: "de_mirage"}}}
+	if refusal := decided.checkVeto(); refusal != nil {
+		t.Errorf("a ban and a decider were refused: %v", refusal)
+	}
+}

@@ -9,15 +9,16 @@ import (
 const Version = 1
 
 type Match struct {
-	Version        int       `json:"version"`
-	ID             string    `json:"id"`
-	Teams          [2]Team   `json:"teams"`
-	Spectators     []Player  `json:"spectators,omitempty"`
-	LineupRevision int       `json:"lineup_revision"`
-	Settings       Settings  `json:"settings"`
-	Maps           []MapPlan `json:"maps"`
-	FillWithBots   bool      `json:"fill_with_bots,omitempty"`
-	OpenLineups    bool      `json:"open_lineups,omitempty"`
+	Version        int        `json:"version"`
+	ID             string     `json:"id"`
+	Teams          [2]Team    `json:"teams"`
+	Spectators     []Player   `json:"spectators,omitempty"`
+	LineupRevision int        `json:"lineup_revision"`
+	Settings       Settings   `json:"settings"`
+	Maps           []MapPlan  `json:"maps"`
+	Veto           []VetoStep `json:"veto,omitempty"`
+	FillWithBots   bool       `json:"fill_with_bots,omitempty"`
+	OpenLineups    bool       `json:"open_lineups,omitempty"`
 }
 
 func (m Match) LineupPlayers() iter.Seq2[int, Player] {
@@ -48,6 +49,24 @@ type Player struct {
 type MapPlan struct {
 	Map   string `json:"map"`
 	Sides Sides  `json:"sides"`
+}
+
+type VetoAction string
+
+const (
+	VetoPick    VetoAction = "pick"
+	VetoBan     VetoAction = "ban"
+	VetoDecider VetoAction = "decider"
+)
+
+func (a VetoAction) known() bool {
+	return a == VetoPick || a == VetoBan || a == VetoDecider
+}
+
+type VetoStep struct {
+	Action VetoAction `json:"action"`
+	Map    string     `json:"map"`
+	Team   *int       `json:"team,omitempty"`
 }
 
 type Sides string
@@ -104,6 +123,7 @@ type Settings struct {
 	Timeouts          Timeouts    `json:"timeouts"`
 	TechPauses        TechPauses  `json:"tech_pauses"`
 	Disconnects       Disconnects `json:"disconnects"`
+	NoShows           NoShows     `json:"no_shows,omitzero"`
 	SideChoiceSeconds int         `json:"side_choice_seconds"`
 	BreakSeconds      int         `json:"break_seconds"`
 	Demo              DemoRule    `json:"demo"`
@@ -132,6 +152,10 @@ type Disconnects struct {
 	Pause       bool `json:"pause"`
 	WaitSeconds int  `json:"wait_seconds"`
 	Forfeit     bool `json:"forfeit"`
+}
+
+type NoShows struct {
+	Forfeit bool `json:"forfeit"`
 }
 
 func DefaultSettings() Settings {

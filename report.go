@@ -48,6 +48,7 @@ type State struct {
 	Round          int           `json:"round"`
 	Score          [2]int        `json:"score"`
 	MapsWon        [2]int        `json:"maps_won"`
+	MapScores      [][2]int      `json:"map_scores,omitempty"`
 	CTTeam         int           `json:"ct_team"`
 	KnifeWinner    *int          `json:"knife_winner,omitempty"`
 	TechPausesUsed [2]int        `json:"tech_pauses_used"`
@@ -76,6 +77,7 @@ const (
 
 type Pause struct {
 	Kind      PauseKind `json:"kind"`
+	Reason    string    `json:"reason,omitempty"`
 	ResumeAt  time.Time `json:"resume_at,omitzero"`
 	GivesUpAt time.Time `json:"gives_up_at,omitzero"`
 	CalledBy  *int      `json:"called_by,omitempty"`
@@ -113,4 +115,5 @@ type CancelReason string
 const (
 	CancelledByStaff  CancelReason = "staff"
 	CancelledNotReady CancelReason = "not_ready"
+	CancelledNoShow   CancelReason = "no_show"
 )

@@ -12,6 +12,7 @@ const (
 	RefusedNoID            RefusalCode = "no_id"
 	RefusedNoMaps          RefusalCode = "no_maps"
 	RefusedBadSides        RefusalCode = "bad_sides"
+	RefusedBadVeto         RefusalCode = "bad_veto"
 	RefusedLineupSize      RefusalCode = "lineup_size"
 	RefusedNoSteam         RefusalCode = "no_steam"
 	RefusedDuplicatePlayer RefusalCode = "duplicate_player"
@@ -46,6 +47,7 @@ func (m Match) Validate() *Refusal {
 		m.checkIdentity,
 		m.Settings.check,
 		m.checkMaps,
+		m.checkVeto,
 		m.checkSteamIDs,
 		m.checkLineupSizes,
 		m.checkDuplicates,
@@ -78,6 +80,22 @@ func (m Match) checkMaps() *Refusal {
 		}
 		if !plan.Sides.known() {
 			return Refuse(RefusedBadSides, "map %d sides %q", i+1, plan.Sides)
+		}
+	}
+	return nil
+}
+
+func (m Match) checkVeto() *Refusal {
+	for i, step := range m.Veto {
+		switch {
+		case !step.Action.known():
+			return Refuse(RefusedBadVeto, "veto step %d action %q", i+1, step.Action)
+		case step.Map == "":
+			return Refuse(RefusedBadVeto, "veto step %d has no map", i+1)
+		case step.Team != nil && *step.Team != 0 && *step.Team != 1:
+			return Refuse(RefusedBadVeto, "veto step %d team must be 0 or 1", i+1)
+		case step.Team == nil && step.Action != VetoDecider:
+			return Refuse(RefusedBadVeto, "veto step %d needs a team", i+1)
 		}
 	}
 	return nil
