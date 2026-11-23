@@ -158,6 +158,7 @@ func (s Settings) check() *Refusal {
 		{s.RoundsPerHalf < 1, "rounds_per_half must be at least 1"},
 		{!s.Start.known(), "start must be ready or connected"},
 		{!s.Demo.known(), "demo must be required or wanted"},
+		{!s.FriendlyFire.known(), "friendly_fire must be on, utility or off"},
 		{s.Overtime.Enabled && s.Overtime.RoundsPerHalf < 1, "overtime rounds_per_half must be at least 1"},
 		{s.Overtime.StartMoney < 0, "overtime start_money cannot be negative"},
 		{s.Timeouts.PerTeam < 0 || s.Timeouts.Seconds < 0, "timeouts cannot be negative"},

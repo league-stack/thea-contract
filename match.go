@@ -115,27 +115,28 @@ func (r DemoRule) known() bool {
 }
 
 type Settings struct {
-	PlayersPerTeam    int         `json:"players_per_team"`
-	Start             StartRule   `json:"start"`
-	ReadySeconds      int         `json:"ready_seconds"`
-	RoundsPerHalf     int         `json:"rounds_per_half"`
-	Overtime          Overtime    `json:"overtime"`
-	AllowDraw         bool        `json:"allow_draw"`
-	Timeouts          Timeouts    `json:"timeouts"`
-	TechPauses        TechPauses  `json:"tech_pauses"`
-	Disconnects       Disconnects `json:"disconnects"`
-	NoShows           NoShows     `json:"no_shows,omitzero"`
-	Surrender         Surrender   `json:"surrender,omitzero"`
-	Remake            Remake      `json:"remake,omitzero"`
-	VoteSeconds       int         `json:"vote_seconds,omitempty"`
-	IdleRounds        int         `json:"idle_rounds,omitempty"`
-	CaptainsCall      bool        `json:"captains_call,omitempty"`
-	ClearSeconds      int         `json:"clear_seconds,omitempty"`
-	SideChoiceSeconds int         `json:"side_choice_seconds"`
-	BreakSeconds      int         `json:"break_seconds"`
-	Demo              DemoRule    `json:"demo"`
-	DamageReport      bool        `json:"damage_report"`
-	TeamIntro         bool        `json:"team_intro"`
+	PlayersPerTeam    int          `json:"players_per_team"`
+	Start             StartRule    `json:"start"`
+	ReadySeconds      int          `json:"ready_seconds"`
+	RoundsPerHalf     int          `json:"rounds_per_half"`
+	Overtime          Overtime     `json:"overtime"`
+	AllowDraw         bool         `json:"allow_draw"`
+	Timeouts          Timeouts     `json:"timeouts"`
+	TechPauses        TechPauses   `json:"tech_pauses"`
+	Disconnects       Disconnects  `json:"disconnects"`
+	NoShows           NoShows      `json:"no_shows,omitzero"`
+	Surrender         Surrender    `json:"surrender,omitzero"`
+	Remake            Remake       `json:"remake,omitzero"`
+	VoteSeconds       int          `json:"vote_seconds,omitempty"`
+	IdleRounds        int          `json:"idle_rounds,omitempty"`
+	CaptainsCall      bool         `json:"captains_call,omitempty"`
+	ClearSeconds      int          `json:"clear_seconds,omitempty"`
+	FriendlyFire      FriendlyFire `json:"friendly_fire,omitempty"`
+	SideChoiceSeconds int          `json:"side_choice_seconds"`
+	BreakSeconds      int          `json:"break_seconds"`
+	Demo              DemoRule     `json:"demo"`
+	DamageReport      bool         `json:"damage_report"`
+	TeamIntro         bool         `json:"team_intro"`
 }
 
 type Overtime struct {
@@ -160,6 +161,18 @@ type Disconnects struct {
 	WaitSeconds int  `json:"wait_seconds"`
 	Forfeit     bool `json:"forfeit"`
 	Vote        bool `json:"vote,omitempty"`
+}
+
+type FriendlyFire string
+
+const (
+	FriendlyFireOn      FriendlyFire = "on"
+	FriendlyFireUtility FriendlyFire = "utility"
+	FriendlyFireOff     FriendlyFire = "off"
+)
+
+func (f FriendlyFire) known() bool {
+	return f == "" || f == FriendlyFireOn || f == FriendlyFireUtility || f == FriendlyFireOff
 }
 
 type NoShows struct {
