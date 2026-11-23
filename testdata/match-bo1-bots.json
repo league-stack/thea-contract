@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "id": "match-bots",
+  "teams": [
+    {"ref": "team-a", "name": "Alpha", "tag": "ALP", "players": []},
+    {"ref": "team-b", "name": "Bravo", "tag": "BRV", "players": []}
+  ],
+  "lineup_revision": 1,
+  "settings": {
+    "players_per_team": 5,
+    "start": "connected",
+    "ready_seconds": 0,
+    "rounds_per_half": 2,
+    "overtime": {"enabled": false, "rounds_per_half": 3, "start_money": 12500},
+    "allow_draw": true,
+    "timeouts": {"per_team": 3, "seconds": 30},
+    "tech_pauses": {"allowed": true, "per_team": 2, "max_seconds": 300},
+    "disconnects": {"pause": true, "wait_seconds": 300, "forfeit": false},
+    "side_choice_seconds": 60,
+    "break_seconds": 5,
+    "demo": "wanted",
+    "damage_report": true,
+    "team_intro": false
+  },
+  "maps": [
+    {"map": "de_dust2", "sides": "knife"}
+  ],
+  "fill_with_bots": true
+}

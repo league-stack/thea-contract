@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "id": "match-1001",
+  "teams": [
+    {
+      "ref": "team-a",
+      "name": "Alpha",
+      "tag": "ALP",
+      "players": [
+        {"steam": "76561190000000001", "name": "ana"},
+        {"steam": "76561190000000002", "name": "ben"},
+        {"steam": "76561190000000003", "name": "cal"},
+        {"steam": "76561190000000004", "name": "dee"},
+        {"steam": "76561190000000005", "name": "eli"}
+      ]
+    },
+    {
+      "ref": "team-b",
+      "name": "Bravo",
+      "tag": "BRV",
+      "players": [
+        {"steam": "76561190000000011", "name": "fay"},
+        {"steam": "76561190000000012", "name": "gus"},
+        {"steam": "76561190000000013", "name": "hal"},
+        {"steam": "76561190000000014", "name": "ida"},
+        {"steam": "76561190000000015", "name": "jon"}
+      ]
+    }
+  ],
+  "spectators": [
+    {"steam": "76561190000000099", "name": "caster"}
+  ],
+  "lineup_revision": 1,
+  "settings": {
+    "players_per_team": 5,
+    "start": "ready",
+    "ready_seconds": 0,
+    "rounds_per_half": 12,
+    "overtime": {"enabled": true, "rounds_per_half": 3, "start_money": 12500},
+    "allow_draw": false,
+    "timeouts": {"per_team": 3, "seconds": 30},
+    "tech_pauses": {"allowed": true, "per_team": 2, "max_seconds": 300},
+    "disconnects": {"pause": true, "wait_seconds": 300, "forfeit": false},
+    "side_choice_seconds": 60,
+    "break_seconds": 300,
+    "demo": "required",
+    "damage_report": true,
+    "team_intro": false
+  },
+  "maps": [
+    {"map": "de_mirage", "sides": "team2_ct"},
+    {"map": "de_inferno", "sides": "team1_ct"},
+    {"map": "de_nuke", "sides": "knife"}
+  ]
+}
