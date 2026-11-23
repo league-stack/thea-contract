@@ -166,6 +166,7 @@ func (s Settings) check() *Refusal {
 		{s.AllowDraw == s.Overtime.Enabled, "allow_draw must be on exactly when overtime is off"},
 		{s.Disconnects.WaitSeconds < 0, "disconnects wait_seconds cannot be negative"},
 		{s.ReadySeconds < 0, "ready_seconds cannot be negative"},
+		{s.StartSeconds < 0, "start_seconds cannot be negative"},
 		{s.SideChoiceSeconds < 0, "side_choice_seconds cannot be negative"},
 		{s.BreakSeconds < 0, "break_seconds cannot be negative"},
 		{s.NoShows.ReplacementSeconds < 0, "no_shows replacement_seconds cannot be negative"},

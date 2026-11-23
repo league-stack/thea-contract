@@ -118,6 +118,8 @@ type Settings struct {
 	PlayersPerTeam    int          `json:"players_per_team"`
 	Start             StartRule    `json:"start"`
 	ReadySeconds      int          `json:"ready_seconds"`
+	StartSeconds      int          `json:"start_seconds,omitempty"`
+	CaptainsReady     bool         `json:"captains_ready,omitempty"`
 	RoundsPerHalf     int          `json:"rounds_per_half"`
 	Overtime          Overtime     `json:"overtime"`
 	AllowDraw         bool         `json:"allow_draw"`
@@ -204,6 +206,7 @@ func DefaultSettings() Settings {
 	return Settings{
 		PlayersPerTeam:    5,
 		Start:             StartWhenReady,
+		StartSeconds:      5,
 		RoundsPerHalf:     12,
 		Overtime:          Overtime{Enabled: true, RoundsPerHalf: 3, StartMoney: 12500},
 		Timeouts:          Timeouts{PerTeam: 3, Seconds: 30},

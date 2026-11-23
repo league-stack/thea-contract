@@ -43,6 +43,7 @@ type State struct {
 	Pause          Pause         `json:"pause,omitzero"`
 	Hold           Hold          `json:"hold,omitzero"`
 	Deadline       time.Time     `json:"deadline,omitzero"`
+	StartsAt       time.Time     `json:"starts_at,omitzero"`
 	Cancelled      CancelReason  `json:"cancelled,omitempty"`
 	Forfeited      *int          `json:"forfeited,omitempty"`
 	ForfeitReason  ForfeitReason `json:"forfeit_reason,omitempty"`

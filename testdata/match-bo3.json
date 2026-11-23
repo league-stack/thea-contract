@@ -35,6 +35,7 @@
     "players_per_team": 5,
     "start": "ready",
     "ready_seconds": 0,
+    "start_seconds": 5,
     "rounds_per_half": 12,
     "overtime": {"enabled": true, "rounds_per_half": 3, "start_money": 12500},
     "allow_draw": false,
