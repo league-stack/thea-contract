@@ -81,3 +81,13 @@ func TestSidesSayWhichTeamStartsOnCT(t *testing.T) {
 		}
 	}
 }
+
+func TestANewLineupNamesItsCaptains(t *testing.T) {
+	before := Match{Teams: [2]Team{{Captain: "1", Players: []Player{{Steam: "1"}}}, {Players: []Player{{Steam: "2"}}}}}
+
+	after := before.With(Lineup{Revision: 2, Teams: [2][]Player{{{Steam: "3"}}, {{Steam: "2"}}}, Captains: [2]string{"3", "2"}})
+
+	if after.Teams[0].Captain != "3" || after.Teams[1].Captain != "2" || after.checkCaptains() != nil {
+		t.Fatalf("teams = %+v", after.Teams)
+	}
+}

@@ -65,12 +65,13 @@ type Lineup struct {
 	Revision   int         `json:"revision"`
 	Teams      [2][]Player `json:"teams"`
 	Coaches    [2][]Player `json:"coaches,omitzero"`
+	Captains   [2]string   `json:"captains,omitzero"`
 	Spectators []Player    `json:"spectators,omitempty"`
 }
 
 func (m Match) With(lineup Lineup) Match {
 	for team := range m.Teams {
-		m.Teams[team].Players, m.Teams[team].Coaches = lineup.Teams[team], lineup.Coaches[team]
+		m.Teams[team].Players, m.Teams[team].Coaches, m.Teams[team].Captain = lineup.Teams[team], lineup.Coaches[team], lineup.Captains[team]
 	}
 	m.Spectators, m.LineupRevision = lineup.Spectators, lineup.Revision
 	return m
