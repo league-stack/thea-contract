@@ -159,10 +159,11 @@ type TechPauses struct {
 }
 
 type Disconnects struct {
-	Pause       bool `json:"pause"`
-	WaitSeconds int  `json:"wait_seconds"`
-	Forfeit     bool `json:"forfeit"`
-	Vote        bool `json:"vote,omitempty"`
+	Pause             bool `json:"pause"`
+	WaitSeconds       int  `json:"wait_seconds"`
+	Forfeit           bool `json:"forfeit"`
+	Vote              bool `json:"vote,omitempty"`
+	SubstituteSeconds int  `json:"substitute_seconds,omitempty"`
 }
 
 type FriendlyFire string

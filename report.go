@@ -20,13 +20,14 @@ const (
 type ReportKind string
 
 const (
-	ReportState       ReportKind = "state"
-	ReportMapLive     ReportKind = "map_live"
-	ReportRoundEnded  ReportKind = "round_ended"
-	ReportMapEnded    ReportKind = "map_ended"
-	ReportSeriesEnded ReportKind = "series_ended"
-	ReportCheckpoint  ReportKind = "checkpoint"
-	ReportNoShow      ReportKind = "no_show"
+	ReportState            ReportKind = "state"
+	ReportMapLive          ReportKind = "map_live"
+	ReportRoundEnded       ReportKind = "round_ended"
+	ReportMapEnded         ReportKind = "map_ended"
+	ReportSeriesEnded      ReportKind = "series_ended"
+	ReportCheckpoint       ReportKind = "checkpoint"
+	ReportNoShow           ReportKind = "no_show"
+	ReportSubstituteNeeded ReportKind = "substitute_needed"
 )
 
 type Report struct {

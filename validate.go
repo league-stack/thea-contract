@@ -165,6 +165,7 @@ func (s Settings) check() *Refusal {
 		{s.TechPauses.PerTeam < 0 || s.TechPauses.MaxSeconds < 0, "tech_pauses cannot be negative"},
 		{s.AllowDraw == s.Overtime.Enabled, "allow_draw must be on exactly when overtime is off"},
 		{s.Disconnects.WaitSeconds < 0, "disconnects wait_seconds cannot be negative"},
+		{s.Disconnects.SubstituteSeconds < 0, "disconnects substitute_seconds cannot be negative"},
 		{s.ReadySeconds < 0, "ready_seconds cannot be negative"},
 		{s.StartSeconds < 0, "start_seconds cannot be negative"},
 		{s.SideChoiceSeconds < 0, "side_choice_seconds cannot be negative"},
