@@ -24,6 +24,12 @@ const (
 	CommandTechPause     CommandKind = "tech_pause"
 	CommandTimeout       CommandKind = "timeout"
 	CommandAgreeToResume CommandKind = "agree_to_resume"
+	CommandSurrender     CommandKind = "surrender"
+	CommandRemake        CommandKind = "remake"
+	CommandPlayOn        CommandKind = "play_on"
+	CommandGiveUp        CommandKind = "give_up"
+
+	CommandPoints CommandKind = "points"
 )
 
 type SideChoice string
@@ -46,6 +52,13 @@ type Command struct {
 	Team   *int        `json:"team,omitempty"`
 	Steam  string      `json:"steam,omitempty"`
 	Side   SideChoice  `json:"side,omitempty"`
+	Points []Points    `json:"points,omitempty"`
+}
+
+type Points struct {
+	Steam  string `json:"steam"`
+	Change int    `json:"change"`
+	Total  int    `json:"total"`
 }
 
 type Lineup struct {

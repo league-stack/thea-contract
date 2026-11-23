@@ -26,6 +26,7 @@ const (
 	ReportMapEnded    ReportKind = "map_ended"
 	ReportSeriesEnded ReportKind = "series_ended"
 	ReportCheckpoint  ReportKind = "checkpoint"
+	ReportNoShow      ReportKind = "no_show"
 )
 
 type Report struct {
@@ -44,6 +45,9 @@ type State struct {
 	Deadline       time.Time     `json:"deadline,omitzero"`
 	Cancelled      CancelReason  `json:"cancelled,omitempty"`
 	Forfeited      *int          `json:"forfeited,omitempty"`
+	ForfeitReason  ForfeitReason `json:"forfeit_reason,omitempty"`
+	Replacing      bool          `json:"awaiting_replacement,omitempty"`
+	Vote           *Vote         `json:"vote,omitempty"`
 	MapIndex       int           `json:"map_index"`
 	Round          int           `json:"round"`
 	Score          [2]int        `json:"score"`
@@ -58,10 +62,42 @@ type State struct {
 }
 
 type PlayerState struct {
-	Steam     string `json:"steam"`
-	Team      int    `json:"team"`
-	Connected bool   `json:"connected"`
-	Ready     bool   `json:"ready"`
+	Steam       string    `json:"steam"`
+	Team        int       `json:"team"`
+	Connected   bool      `json:"connected"`
+	Ready       bool      `json:"ready"`
+	Left        int       `json:"left,omitempty"`
+	LeftAt      time.Time `json:"left_at,omitzero"`
+	AwaySeconds int       `json:"away_seconds,omitempty"`
+	Idle        bool      `json:"idle,omitempty"`
+	TeamDamage  int       `json:"team_damage,omitempty"`
+	TeamKills   int       `json:"team_kills,omitempty"`
+}
+
+type ForfeitReason string
+
+const (
+	ForfeitByStaff    ForfeitReason = "staff"
+	ForfeitDisconnect ForfeitReason = "disconnect"
+	ForfeitNoShow     ForfeitReason = "no_show"
+	ForfeitSurrender  ForfeitReason = "surrender"
+	ForfeitGaveUp     ForfeitReason = "gave_up"
+)
+
+type VoteKind string
+
+const (
+	VoteSurrender VoteKind = "surrender"
+	VotePlayOn    VoteKind = "play_on"
+)
+
+type Vote struct {
+	Kind   VoteKind  `json:"kind"`
+	Team   int       `json:"team"`
+	Yes    []string  `json:"yes"`
+	No     []string  `json:"no,omitempty"`
+	Needed int       `json:"needed"`
+	EndsAt time.Time `json:"ends_at"`
 }
 
 type PauseKind string
@@ -116,4 +152,5 @@ const (
 	CancelledByStaff  CancelReason = "staff"
 	CancelledNotReady CancelReason = "not_ready"
 	CancelledNoShow   CancelReason = "no_show"
+	CancelledRemake   CancelReason = "remake"
 )

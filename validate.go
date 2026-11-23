@@ -13,6 +13,7 @@ const (
 	RefusedNoMaps          RefusalCode = "no_maps"
 	RefusedBadSides        RefusalCode = "bad_sides"
 	RefusedBadVeto         RefusalCode = "bad_veto"
+	RefusedBadCaptain      RefusalCode = "bad_captain"
 	RefusedLineupSize      RefusalCode = "lineup_size"
 	RefusedNoSteam         RefusalCode = "no_steam"
 	RefusedDuplicatePlayer RefusalCode = "duplicate_player"
@@ -48,6 +49,7 @@ func (m Match) Validate() *Refusal {
 		m.Settings.check,
 		m.checkMaps,
 		m.checkVeto,
+		m.checkCaptains,
 		m.checkSteamIDs,
 		m.checkLineupSizes,
 		m.checkDuplicates,
@@ -96,6 +98,16 @@ func (m Match) checkVeto() *Refusal {
 			return Refuse(RefusedBadVeto, "veto step %d team must be 0 or 1", i+1)
 		case step.Team == nil && step.Action != VetoDecider:
 			return Refuse(RefusedBadVeto, "veto step %d needs a team", i+1)
+		}
+	}
+	return nil
+}
+
+func (m Match) checkCaptains() *Refusal {
+	for _, team := range m.Teams {
+		listed := slices.ContainsFunc(team.Players, func(player Player) bool { return player.Steam == team.Captain })
+		if team.Captain != "" && !listed {
+			return Refuse(RefusedBadCaptain, "%s's captain is not in its lineup", team.Name)
 		}
 	}
 	return nil
@@ -155,6 +167,11 @@ func (s Settings) check() *Refusal {
 		{s.ReadySeconds < 0, "ready_seconds cannot be negative"},
 		{s.SideChoiceSeconds < 0, "side_choice_seconds cannot be negative"},
 		{s.BreakSeconds < 0, "break_seconds cannot be negative"},
+		{s.NoShows.ReplacementSeconds < 0, "no_shows replacement_seconds cannot be negative"},
+		{s.NoShows.Forfeit && s.NoShows.ReplacementSeconds > 0, "no_shows takes forfeit or replacement_seconds, not both"},
+		{s.Surrender.Needed < 0 || s.Surrender.FromRound < 0, "surrender cannot be negative"},
+		{s.Remake.UntilRound < 0, "remake until_round cannot be negative"},
+		{s.VoteSeconds < 0 || s.IdleRounds < 0 || s.ClearSeconds < 0, "vote_seconds, idle_rounds and clear_seconds cannot be negative"},
 	}
 	for _, problem := range problems {
 		if problem.wrong {

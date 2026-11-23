@@ -39,6 +39,7 @@ type Team struct {
 	Tag     string   `json:"tag"`
 	Players []Player `json:"players"`
 	Coaches []Player `json:"coaches,omitempty"`
+	Captain string   `json:"captain,omitempty"`
 }
 
 type Player struct {
@@ -124,6 +125,12 @@ type Settings struct {
 	TechPauses        TechPauses  `json:"tech_pauses"`
 	Disconnects       Disconnects `json:"disconnects"`
 	NoShows           NoShows     `json:"no_shows,omitzero"`
+	Surrender         Surrender   `json:"surrender,omitzero"`
+	Remake            Remake      `json:"remake,omitzero"`
+	VoteSeconds       int         `json:"vote_seconds,omitempty"`
+	IdleRounds        int         `json:"idle_rounds,omitempty"`
+	CaptainsCall      bool        `json:"captains_call,omitempty"`
+	ClearSeconds      int         `json:"clear_seconds,omitempty"`
 	SideChoiceSeconds int         `json:"side_choice_seconds"`
 	BreakSeconds      int         `json:"break_seconds"`
 	Demo              DemoRule    `json:"demo"`
@@ -152,10 +159,32 @@ type Disconnects struct {
 	Pause       bool `json:"pause"`
 	WaitSeconds int  `json:"wait_seconds"`
 	Forfeit     bool `json:"forfeit"`
+	Vote        bool `json:"vote,omitempty"`
 }
 
 type NoShows struct {
-	Forfeit bool `json:"forfeit"`
+	Forfeit            bool `json:"forfeit"`
+	ReplacementSeconds int  `json:"replacement_seconds,omitempty"`
+}
+
+type Surrender struct {
+	Allowed   bool `json:"allowed"`
+	Needed    int  `json:"needed,omitempty"`
+	FromRound int  `json:"from_round,omitempty"`
+}
+
+type Remake struct {
+	Allowed    bool `json:"allowed"`
+	UntilRound int  `json:"until_round,omitempty"`
+}
+
+const DefaultVoteSeconds = 45
+
+func (s Settings) VoteLasts() int {
+	if s.VoteSeconds > 0 {
+		return s.VoteSeconds
+	}
+	return DefaultVoteSeconds
 }
 
 func DefaultSettings() Settings {
